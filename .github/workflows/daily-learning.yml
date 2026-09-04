@@ -1,1 +1,62 @@
+name: Daily Learning Log
 
+on:
+  schedule:
+    - cron: "30 15 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  create-learning-log:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Create daily learning log
+        run: |
+          mkdir -p daily-learning
+
+          DATE=$(date -u +"%Y-%m-%d")
+          DISPLAY_DATE=$(date -u +"%B %-d, %Y")
+
+          FILE="daily-learning/${DATE}.md"
+
+          if [ ! -f "$FILE" ]; then
+            cat > "$FILE" << EOF
+          # $DISPLAY_DATE
+
+          ## 📚 What I learned
+
+          - 
+
+          ## 💻 What I built/practiced
+
+          - 
+
+          ## 🧠 One thing I understand better now
+
+          - 
+
+          ## 🔥 Tomorrow
+
+          - 
+          EOF
+          fi
+
+      - name: Commit daily learning log
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add daily-learning/
+
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "docs: add daily learning log"
+            git push
+          fi
