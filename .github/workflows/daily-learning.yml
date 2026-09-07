@@ -2,7 +2,7 @@ name: Daily Learning Log
 
 on:
   schedule:
-    - cron: "30 15 * * *"
+    - cron: "30 6 * * *"
   workflow_dispatch:
   push:
     branches:
