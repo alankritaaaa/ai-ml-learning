@@ -23,7 +23,7 @@ jobs:
         run: |
           mkdir -p daily-learning
 
-          DATE=$(date -u +"%d-%m-%Y")
+          DATE=$(date -u +"%Y-%m-%d")
           DISPLAY_DATE=$(date -u +"%B %-d, %Y")
 
           FILE="daily-learning/${DATE}.md"
